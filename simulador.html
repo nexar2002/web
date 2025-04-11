@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Préstamos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            padding: 20px;
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 480px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 22px;
+        }
+        label {
+            font-size: 16px;
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="number"] {
+            width: 90%;
+            padding: 12px;
+            font-size: 16px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            width: 98%;
+            padding: 12px;
+            font-size: 16px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simulador de Préstamos</h1>
+        <form id="loan-form">
+            <label for="amount">Monto del préstamo:</label>
+            <input type="number" id="amount" placeholder="Ingrese el monto" required>
+
+            <label for="interest">Tasa de interés mensual (%):</label>
+            <input type="number" id="interest" placeholder="Ingrese la tasa de interés mensual" required>
+
+            <label for="months">Plazo (en meses):</label>
+            <input type="number" id="months" placeholder="Ingrese el plazo en meses" required>
+
+            <input type="submit" value="Calcular">
+        </form>
+
+        <div id="loan-results"></div>
+    </div>
+
+    <script>
+        document.getElementById('loan-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Obtener los datos del formulario
+            const amount = parseFloat(document.getElementById('amount').value);
+            const interestRate = parseFloat(document.getElementById('interest').value) / 100;
+            const months = parseInt(document.getElementById('months').value);
+
+            // Cálculo del pago fijo de capital mensual
+            const capitalMensual = amount / months;
+            let saldoRestante = amount;
+
+            // Variables para la suma de cada columna
+            let totalInteres = 0;
+            let totalFijo = 0;
+            let totalValor = 0;
+
+            let resultHTML = `
+                <h2>Tabla de Pagos</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Periodo</th>
+                            <th>Crédito</th>
+                            <th>Interés</th>
+                            <th>Fijo</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            // Calcular cada cuota
+            for (let i = 1; i <= months; i++) {
+                let interesMensual = saldoRestante * interestRate; // Interés sobre el saldo restante
+                let cuotaTotal = capitalMensual + interesMensual; // Pago total del mes
+
+                // Sumar a los totales
+                totalInteres += interesMensual;
+                totalFijo += capitalMensual;
+                totalValor += cuotaTotal;
+
+                resultHTML += `
+                    <tr>
+                        <td>${i}</td>
+                        <td>$${saldoRestante.toFixed(2)}</td>
+                        <td>$${interesMensual.toFixed(2)}</td>
+                        <td>$${capitalMensual.toFixed(2)}</td>
+                        <td><strong>$${cuotaTotal.toFixed(2)}</strong></td>
+                    </tr>
+                `;
+
+                saldoRestante -= capitalMensual; // Reducir saldo restante
+            }
+
+            // Agregar una fila con las sumas de cada columna
+            resultHTML += `
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td></td>
+                    <td><strong>$${totalInteres.toFixed(2)}</strong></td>
+                    <td><strong>$${totalFijo.toFixed(2)}</strong></td>
+                    <td><strong>$${totalValor.toFixed(2)}</strong></td>
+                </tr>
+            `;
+
+            resultHTML += `</tbody></table>`;
+            document.getElementById('loan-results').innerHTML = resultHTML;
+        });
+    </script>
+</body>
+</html>

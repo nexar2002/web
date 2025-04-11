@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Préstamos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f8f8f8;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            margin: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #000;
+            color: #fff;
+        }
+        .label-container {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Consulta de Préstamos</h1>
+
+    <div class="container">
+        <p class="label-container">CI del usuario: <span id="ci-usuario">Cargando...</span></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>N</th>
+                    <th>Fecha Préstamo</th>
+                    <th>CI</th>
+                    <th>Accionista</th>
+                    <th>Valor Crédito</th>
+                    <th>Modalidad</th>
+                    <th>N° Cuota</th>
+                    <th>Capital</th>
+                    <th>Interés</th>
+                    <th>Cuota Generada</th>
+                    <th>Fecha Pago</th>
+                    <th>Fecha Vence</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-datos">
+                <!-- Aquí se insertarán los datos dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function cargarDatos() {
+            fetch('consulta_prestamo.php')
+                .then(response => response.json())
+                .then(data => {
+                    let tabla = document.getElementById("tabla-datos");
+                    let labelCI = document.getElementById("ci-usuario");
+                    
+                    tabla.innerHTML = "";
+
+                    if (data.error) {
+                        tabla.innerHTML = `<tr><td colspan="13">${data.error}</td></tr>`;
+                        labelCI.textContent = "Error al obtener CI";
+                        return;
+                    }
+
+                    // Mostrar el CI del usuario en el label
+                    labelCI.textContent = data.ci;
+
+                    data.prestamos.forEach(fila => {
+                        let tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td>${fila.N}</td>
+                            <td>${fila.FECHA_PRESTAMO}</td>
+                            <td>${fila.CI}</td>
+                            <td>${fila.ACCIONISTA}</td>
+                            <td>${fila.VALOR_CREDITO}</td>
+                            <td>${fila.MODALIDAD}</td>
+                            <td>${fila.N_CUOTA}</td>
+                            <td>${fila.CAPITAL}</td>
+                            <td>${fila.INTERES}</td>
+                            <td>${fila.CUOTA_GENERADA}</td>
+                            <td>${fila.FECHA_PAGO || 'Pendiente'}</td>
+                            <td>${fila.FECHA_VENCE}</td>
+                            <td>${fila.ESTADO}</td>
+                        `;
+                        tabla.appendChild(tr);
+                    });
+                })
+                .catch(error => console.error("Error al cargar datos:", error));
+        }
+
+        window.onload = cargarDatos;
+    </script>
+
+</body>
+</html>

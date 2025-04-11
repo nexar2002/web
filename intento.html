@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Usuario</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        /* HEADER */
+        .header {
+            background-color: #DAF7A6;
+            color: black;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .header-info h1 {
+            font-size: 16px;
+        }
+
+        .header-info p {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* TARJETAS */
+        .container {
+            padding: 15px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            font-size: 14px;
+            color: gray;
+        }
+
+        .card p {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* PRÓXIMA ASAMBLEA */
+        .section-title {
+            text-align: center;
+            font-weight: bold;
+            color: black;
+            margin: 20px 0;
+        }
+
+        .small-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* SOLICITUDES */
+        .solicitudes {
+        text-align: center;
+            font-weight: bold;
+            color: black;
+            margin: 15px 0;
+        }
+
+        .solicitud-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .btn-danger {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: blue;
+            color: white;
+        }
+
+        /* MENÚ INFERIOR */
+        .menu {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <img src="img/icon.jpg" alt="Perfil" class="profile-pic">
+        <div class="header-info">
+            <h1>Nexar Tomala Ramos</h1>
+            <p>Grupo de Ahorro "La Bendicion"</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- TARJETAS -->
+        <div class="grid">
+            <div class="card">
+                <h2>Importe en Acciones</h2>
+                <p>$515.00</p>
+            </div>
+            <div class="card">
+                <h2>Utilidades Cobradas</h2>
+                <p>$797.82</p>
+            </div>
+            <div class="card">
+                <h2>Utilidades por Cobrar</h2>
+                <p>$0.00</p>
+            </div>
+            <div class="card">
+                <h2>Préstamos Recibidos</h2>
+                <p>$5,247.60</p>
+            </div>
+            <div class="card">
+                <h2>Importe Total por Pagar</h2>
+                <p>$107.50</p>
+            </div>
+        </div>
+
+        <!-- PRÓXIMA ASAMBLEA -->
+        <p class="section-title">Próxima Asamblea</p>
+        <div class="small-grid">
+            <div class="card">
+                <h2>Fecha</h2>
+                <p>13-04-2025</p>
+            </div>
+            <div class="card">
+                <h2>Hora</h2>
+                <p>03:00 PM</p>
+            </div>
+        </div>
+
+        <!-- SOLICITUDES -->
+        <p class="solicitudes">Mis Solicitudes</p>
+        <div class="solicitud-card">
+            <span>Compra de Acciones</span>
+        </div>
+
+        <div class="solicitud-card">
+            <span>Nº de Acciones: 1 - Importe: $5.00</span>
+            <button class="btn btn-danger">Eliminar</button>
+            <button class="btn btn-primary">Editar</button>
+        </div>
+    </div>
+
+    <!-- MENÚ INFERIOR -->
+    <div class="menu">
+        <div class="menu-item">
+            <span>📄</span>
+            <span>Mis datos</span>
+        </div>
+        <div class="menu-item">
+            <span>🛍️</span>
+            <span>Productos</span>
+        </div>
+        <div class="menu-item">
+            <span>👥</span>
+            <span>Grupo</span>
+        </div>
+   <div class="menu-item" onclick="openSimulador()">  
+    <span>📊</span>  
+    <span>Simulador</span>  
+</div>
+
+<script>
+function openSimulador() {
+    window.location.href = 'simulador.html'; // Redirige a la página simulador.html
+}
+</script>
+        <div class="menu-item">
+            <span>⋮</span>
+            <span>Más</span>
+        </div>
+    </div>
+
+</body>
+</html>
